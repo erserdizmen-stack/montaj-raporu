@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montaj Raporu - Başlama Rehberi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .step {
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+        .step h2 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+        .step p {
+            color: #555;
+            margin: 8px 0;
+        }
+        .step strong {
+            color: #333;
+        }
+        .code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d32f2f;
+        }
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success strong {
+            color: #155724;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        .timer {
+            font-size: 14px;
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Montaj Raporu Formu</h1>
+        <p class="subtitle">İnternet'e koyma - 3 adım, 2 dakika</p>
+
+        <div class="success">
+            <strong>✅ Form hazır!</strong> Şimdi internete koymak için 3 tıkla işi bitireceğiz.
+        </div>
+
+        <div class="step">
+            <h2>1️⃣ ADIM: GitHub'da Repository Oluştur</h2>
+            <p>Git Hub'a git (yeni sekmede aç):</p>
+            <p><strong><a href="https://github.com/new" target="_blank">github.com/new</a></strong></p>
+            <p style="margin-top: 15px;">Sonra:</p>
+            <p>• <strong>Repository name</strong> yazan yere yazılanı yazınız: <span class="code">montaj-raporu</span></p>
+            <p>• <strong>Public</strong> seçili mi kontrol et (böyle kalmalı)</p>
+            <p>• Aşağıda yeşil "<strong>Create repository</strong>" tuşuna tıkla</p>
+        </div>
+
+        <div class="step">
+            <h2>2️⃣ ADIM: Dosyaları Yükle</h2>
+            <p>Repository açıldı. Artık:</p>
+            <p>• Yeşil "<strong>Code</strong>" tuşunun yanında "<strong>Add file</strong>" tuşu var</p>
+            <p>• <strong>Add file → Upload files</strong> tıkla</p>
+            <p>• Bu sayfada <strong>index.html</strong> dosyasını sürükleyip bırak</p>
+            <p>• Yeşil "<strong>Commit changes</strong>" tuşuna tıkla</p>
+        </div>
+
+        <div class="step">
+            <h2>3️⃣ ADIM: GitHub Pages Aç</h2>
+            <p>Repository'nin Settings kısmına git:</p>
+            <p>• Üstte <strong>Settings</strong> tab'ı tıkla</p>
+            <p>• Sol menüden <strong>Pages</strong> tıkla</p>
+            <p>• <strong>Source</strong> kısmında <strong>Deploy from a branch</strong> seçili</p>
+            <p>• Branch olarak <strong>main</strong> seç</p>
+            <p>• <strong>Save</strong> tuşuna tıkla</p>
+            <p style="margin-top: 15px; color: #28a745;"><strong>🎉 Bitti! Sağ üstte linki göreceksin:</strong></p>
+            <p style="background: #f0f0f0; padding: 10px; border-radius: 4px; font-family: monospace; color: #d32f2f; margin-top: 10px;">
+                https://[senin-github-adın].github.io/montaj-raporu/
+            </p>
+        </div>
+
+        <div class="note">
+            <strong>💡 Not:</strong> Link 2-3 dakika sonra çalışmaya başlar. Hemen çalışmazsa, 5 dakika bekle ve yenile.
+        </div>
+
+        <div class="step" style="border-left-color: #28a745; background: #f1f8f4;">
+            <h2 style="color: #28a745;">✅ TAMAM!</h2>
+            <p>Linki takımın insanlarına ver. Açtıklarında form hazır olur. Şantiye listesi otomatik yüklenir.</p>
+        </div>
+
+        <div class="buttons">
+            <a href="https://github.com/new" target="_blank" class="btn btn-primary">GitHub'a Git</a>
+            <a href="DEPLOY.md" class="btn btn-secondary">Detaylı Bilgi</a>
+        </div>
+    </div>
+</body>
+</html>

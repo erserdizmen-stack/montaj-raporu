@@ -1,0 +1,65 @@
+═══════════════════════════════════════════════════════════════
+  MONTAJ RAPORU FORMU - KONTROL LİSTESİ
+═══════════════════════════════════════════════════════════════
+
+GİTHUB'DA REPO OLUŞTURMA:
+─────────────────────────
+☐ github.com/new adresine git
+☐ Repository name: montaj-raporu yazılanı yazıp (tam yazı: montaj-raporu)
+☐ Public seçili olduğunu kontrol et
+☐ Yeşil "Create repository" tuşuna tıkla
+☐ Repository başarıyla oluşturuldu
+
+
+DOSYALARI GITHUB'A YÜKLEME:
+───────────────────────────
+☐ Repository açıldı
+☐ Yeşil "Code" tuşunun yanında "Add file" gör
+☐ "Add file" → "Upload files" tıkla
+☐ index.html dosyasını sürükle-bırak
+☐ Yeşil "Commit changes" tuşuna tıkla
+☐ Dosya yüklendi
+
+
+GITHUB PAGES'İ AÇMA:
+────────────────────
+☐ Repository'de Settings tab'ına tıkla
+☐ Sol menüde "Pages" bölümünü bul
+☐ "Deploy from a branch" seçili olduğunu kontrol et
+☐ Branch: "main" seç
+☐ Yeşil "Save" tuşuna tıkla
+☐ Sayfada mavi banner'da linki göreceksin
+
+
+FORMU KONTROL ETME:
+────────────────────
+☐ Tarayıcıda linki aç
+☐ "Montaj Raporu" başlığını görüyor musun?
+☐ Şantiye dropdown'u dolduruldu mu?
+☐ Form gösteriliyor mu?
+
+
+SONUÇ:
+──────
+☐ Link = https://[github-user].github.io/montaj-raporu/
+☐ Linki takıma ver
+☐ Takım formu kullanıyor
+☐ BITTI! ✅
+
+
+═══════════════════════════════════════════════════════════════
+SORUN MI VAR?
+
+Form açılmıyorsa:
+→ 5 dakika bekle (GitHub Pages senkronize olması biraz zaman alır)
+→ Tarayıcı cache'sini temizle (Ctrl+Shift+Del)
+
+Şantiye listesi boş gösteriliyor:
+→ Make.com scenario'sunun aktif olduğundan emin ol
+→ Tarayıcıyı yenile (F5)
+
+Başka sorun:
+→ Webhook test et: Browser console'da test et et (F12 aç)
+→ Make.com scenario'sunun "Santiye Listesi" webhook'u aktif mi?
+
+═══════════════════════════════════════════════════════════════
