@@ -10,6 +10,18 @@
 <meta name="theme-color" content="#061933">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
+<meta name="description" content="ICON günlük montaj raporu · Ежедневный отчёт по монтажу">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ICON">
+<meta property="og:title" content="ICON · Montaj Raporu">
+<meta property="og:description" content="Günlük montaj raporu · Ежедневный отчёт по монтажу">
+<meta property="og:url" content="https://erserdizmen-stack.github.io/montaj-raporu/">
+<meta property="og:image" content="https://erserdizmen-stack.github.io/montaj-raporu/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://erserdizmen-stack.github.io/montaj-raporu/og-image.png">
+
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" type="image/png" href="icon-192.png">
 <style>
@@ -253,6 +265,7 @@
       <div class="field">
         <label for="kisi" data-i18n="crew">Çalışan Sayısı</label>
         <select id="kisi" name="kisi" required></select>
+        <input type="number" id="kisi-manuel" min="1" max="500" inputmode="numeric" data-i18n-placeholder="crew_manual_ph" placeholder="Çalışan sayısını yazın" style="display:none; margin-top:8px;">
       </div>
 
       <button type="submit" class="submit" id="submit-btn" data-i18n="submit">Raporu Gönder</button>
@@ -289,7 +302,7 @@
     { id: 'teslimat',       grup: 'genel' },
     { id: 'diger',          grup: 'genel', manuel: true }
   ];
-  const KISI_SECENEKLERI = [1,2,3,4,5,6,7,8,9,10,12,15,20];
+  const KISI_SECENEKLERI = Array.from({ length: 20 }, function (_, i) { return i + 1; });
 
   const I18N = {
     tr: {
@@ -322,6 +335,7 @@
       cat_aksesuar: 'Aksesuar Montajı', cat_restorasyon: 'Restorasyon',
       cat_fabrika_hata: 'Fabrika Hatası Giderme', cat_diger: 'Diğer',
       manual_note: 'Yapılan iş', manual_placeholder: 'Ne yapıldığını yazın',
+      crew_other: 'Diğer (elle gir)', crew_manual_ph: 'Çalışan sayısını yazın',
       who_title: 'Raporu kim hazırlıyor?', who_desc: 'Adını seç ve şifreni gir. Bu cihaz seni hatırlayacak.',
       who_continue: 'Devam', who_change: 'Değiştir', who_err: 'Listeden adını seç.',
       pin_placeholder: 'Şifre', pin_err: 'Şifreni gir (4 rakam).', pin_wrong: 'İsim veya şifre hatalı.',
@@ -359,6 +373,7 @@
       cat_aksesuar: 'Монтаж фурнитуры', cat_restorasyon: 'Реставрация',
       cat_fabrika_hata: 'Устранение заводского брака', cat_diger: 'Прочее',
       manual_note: 'Выполненная работа', manual_placeholder: 'Опишите, что сделано',
+      crew_other: 'Другое (ввести вручную)', crew_manual_ph: 'Введите количество человек',
       who_title: 'Кто составляет отчёт?', who_desc: 'Выберите имя и введите пароль. Устройство вас запомнит.',
       who_continue: 'Продолжить', who_change: 'Сменить', who_err: 'Выберите своё имя из списка.',
       pin_placeholder: 'Пароль', pin_err: 'Введите пароль (4 цифры).', pin_wrong: 'Неверное имя или пароль.',
@@ -427,7 +442,13 @@
   $('work-list-genel').innerHTML = KALEMLER.filter(function (k) { return k.grup === 'genel'; }).map(rowHtml).join('');
 
   $('kisi').innerHTML = '<option value="" disabled selected data-i18n="select">Seçin…</option>' +
-    KISI_SECENEKLERI.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('');
+    KISI_SECENEKLERI.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('') +
+    '<option value="manuel" data-i18n="crew_other">Diğer (elle gir)</option>';
+  $('kisi').addEventListener('change', function () {
+    const m = this.value === 'manuel';
+    $('kisi-manuel').style.display = m ? 'block' : 'none';
+    if (m) setTimeout(function () { $('kisi-manuel').focus(); }, 30);
+  });
 
   function rows() { return Array.from(document.querySelectorAll('.work-row')); }
 
@@ -735,7 +756,7 @@
     const manuelEksik = secili.find(function (row) { return row.dataset.manuel && !row.querySelector('.work-note').value.trim(); });
     if (manuelEksik) { manuelEksik.querySelector('.work-note').classList.add('invalid'); showStatus(t('err_manual')); return; }
 
-    const kisiSayisi = num($('kisi').value);
+    const kisiSayisi = $('kisi').value === 'manuel' ? Math.round(num($('kisi-manuel').value)) : num($('kisi').value);
     if (!(kisiSayisi > 0)) { showStatus(t('err_crew')); return; }
     // Çalışan sayısı Excel'de raporun yalnızca ilk satırına yazılır,
     // böylece pivotta toplandığında aynı ekip iki kez sayılmaz.
@@ -789,6 +810,7 @@
   $('new-report-btn').addEventListener('click', function () {
     const saha = sahaInput.value;
     form.reset();
+    $('kisi-manuel').style.display = 'none';
     $('tarih').value = localToday();
     // Aynı kişi aynı şantiyeden art arda rapor giriyorsa bunları koru
     sahaInput.value = saha;
