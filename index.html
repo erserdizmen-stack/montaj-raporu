@@ -1,412 +1,715 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Montaj Raporu</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ICON — Montaj Raporu</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ICON Rapor">
+<meta name="theme-color" content="#061933">
+<link rel="apple-touch-icon" href="data:image/png;base64,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TXpopZjqlJvdxLS60O047yrSi2wqq6pz73rg8dqFzz6545YJY6673HbU1vnr1m/csvc3b6zIZ6zhMb4AgH8p3jr8ngdnbn961lTPNYP7D7jcujTBUCi4/E8fbZ9TtHCwz1+f3pTQnDOV7clMd86HPgXOn26Xq9kQ0Fm7AdJfH0ibOe/F4P+ufFVFPiiHsYbznNYhtbW+Vsxwd35hm19OP7zn9k8YY2zn7n1dK05V5fA22sqjFOP/MHbEgdSUFGw8sALO2Z8/3FDQVJZFj6s452rMiGu+yOuc6++QmiotS0TfMyvFAoGQqPX5rCPHynMv9rBGXXdmRlrdddcWfJ2b4wl0SE1BaMGGV6UUs23J63x+68ix8pw9+w70j/w+jd/vdrlCt958w67cbE8YI24EwDlbX7y1T+nxk90uFabo308aP3pnj/w8vy3luVBaKcUsIdTO3V92SdT/ZRMXodsDrZ1K1E90aqrMtjrRzdX590JcQg6d0YjH7GBzU+qI6oLcsEZnA1pjI2jkYw+abodzN2jtTafRLPbSE0UXtunix6YpmstSxVpWaxIXodvLqjpnckPFpa3xrCuS1rozJOs5TcrkOEG0FBKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMIr/B3P2kwcy9qEuAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" href="data:image/png;base64,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TXpopZjqlJvdxLS60O047yrSi2wqq6pz73rg8dqFzz6545YJY6673HbU1vnr1m/csvc3b6zIZ6zhMb4AgH8p3jr8ngdnbn961lTPNYP7D7jcujTBUCi4/E8fbZ9TtHCwz1+f3pTQnDOV7clMd86HPgXOn26Xq9kQ0Fm7AdJfH0ibOe/F4P+ufFVFPiiHsYbznNYhtbW+Vsxwd35hm19OP7zn9k8YY2zn7n1dK05V5fA22sqjFOP/MHbEgdSUFGw8sALO2Z8/3FDQVJZFj6s452rMiGu+yOuc6++QmiotS0TfMyvFAoGQqPX5rCPHynMv9rBGXXdmRlrdddcWfJ2b4wl0SE1BaMGGV6UUs23J63x+68ix8pw9+w70j/w+jd/vdrlCt958w67cbE8YI24EwDlbX7y1T+nxk90uFabo308aP3pnj/w8vy3luVBaKcUsIdTO3V92SdT/ZRMXodsDrZ1K1E90aqrMtjrRzdX590JcQg6d0YjH7GBzU+qI6oLcsEZnA1pjI2jkYw+abodzN2jtTafRLPbSE0UXtunix6YpmstSxVpWaxIXodvLqjpnckPFpa3xrCuS1rozJOs5TcrkOEG0FBKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMAoSmjAKEpowChKaMIr/B3P2kwcy9qEuAAAAAElFTkSuQmCC">
+<style>
+  :root {
+    --ink: #0a1c33;
+    --ink-soft: #4c6280;
+    --paper: #061933;
+    --paper-deep: #020a18;
+    --card: #ffffff;
+    --line-soft: rgba(255,255,255,0.14);
+    --on-dark: #eef3fa;
+    --on-dark-soft: #93add0;
+    --ok: #1f7a4d;
+    --err: #c0392b;
+    --accent: #4a90d9;
+    --radius: 10px;
+    box-sizing: border-box;
+  }
+  * { box-sizing: inherit; margin: 0; padding: 0; }
+  html { background: var(--paper-deep); }
+  html, body { min-height: 100%; }
+  body {
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%) fixed;
+    color: var(--on-dark);
+    font-family: "Times New Roman", Times, Georgia, serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+  .topbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: var(--paper);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 16px 16px 12px;
+    text-align: center;
+    z-index: 5;
+  }
+  .topbar .logo { height: 22px; width: auto; display: inline-block; filter: brightness(0) invert(1); }
+  .topbar .title { font-size: 13px; color: var(--on-dark-soft); margin-top: 6px; letter-spacing: 0.01em; }
+  .lang-toggle {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    display: flex; border: 1px solid var(--line-soft); border-radius: 999px; overflow: hidden;
+  }
+  .lang-toggle button {
+    background: transparent; border: none; color: var(--on-dark-soft);
+    font-family: inherit; font-size: 11px; font-weight: 700; padding: 5px 9px; cursor: pointer;
+  }
+  .lang-toggle button.active { background: #ffffff; color: var(--paper-deep); }
 
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-        }
+  main { max-width: 480px; margin: 0 auto; padding: 18px 16px 40px; }
 
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
+  .field { margin-bottom: 16px; }
+  .field > label, .field > .label {
+    display: block; font-size: 12px; font-weight: 600; color: var(--on-dark-soft); margin-bottom: 6px;
+  }
+  .hint { font-size: 11px; color: var(--on-dark-soft); margin-top: 6px; }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
+  input, select, textarea {
+    width: 100%; font-size: 15px; font-family: inherit; color: var(--ink);
+    background: var(--card); border: 1.5px solid transparent; border-radius: var(--radius);
+    padding: 11px 13px; line-height: 1.35; appearance: none; -webkit-appearance: none;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  }
+  textarea { resize: vertical; min-height: 72px; }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(74,144,217,0.28);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%234a5568' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px;
+  }
 
-        .form-group {
-            margin-bottom: 24px;
-        }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .section-label { font-size: 11px; font-weight: 700; color: var(--on-dark-soft); margin: 14px 0 8px; }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-            font-size: 14px;
-        }
+  .work-list {
+    background: var(--card); border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+  }
+  .work-row { border-bottom: 1px solid #edf0f4; }
+  .work-row:last-child { border-bottom: none; }
+  .work-row.checked { background: #f3f8fe; }
 
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
+  .work-head {
+    display: flex; align-items: center; gap: 11px;
+    padding: 12px 12px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .work-check {
+    flex: 0 0 22px; width: 22px; height: 22px; padding: 0;
+    border: 1.8px solid #b8c2cf; border-radius: 6px; background: #fff; box-shadow: none;
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .work-check:checked { background: var(--accent); border-color: var(--accent); }
+  .work-check:checked::after { content: "✓"; color: #fff; font-size: 14px; font-weight: 700; line-height: 1; }
+  .work-check:focus { box-shadow: 0 0 0 3px rgba(74,144,217,0.22); }
+  .work-name { flex: 1; font-size: 14.5px; color: var(--ink); line-height: 1.3; }
 
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+  .work-body { display: none; padding: 0 12px 12px 45px; }
+  .work-row.checked .work-body { display: block; }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
+  .work-stats { display: none; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 9px; }
+  .work-row.has-plan .work-stats { display: grid; }
+  .stat {
+    border: 1px solid #dfe4ea; border-radius: 7px; padding: 6px 9px; background: #fff;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .stat span { font-size: 11px; color: var(--ink-soft); }
+  .stat b { font-size: 15px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat.kalan b { color: var(--ok); }
+  .stat.kalan.over { border-color: #f1c3bd; background: #fdf1ef; }
+  .stat.kalan.over b { color: var(--err); }
 
-        button {
-            flex: 1;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+  .work-inputs { display: grid; grid-template-columns: 90px 1fr; gap: 8px; }
+  .work-inputs .full { grid-column: 1 / -1; }
+  .mini-label { display: block; font-size: 10.5px; color: var(--ink-soft); margin-bottom: 3px; }
+  .work-inputs input, .work-inputs select {
+    font-size: 14px; padding: 8px 9px; border: 1.5px solid #dfe4ea; border-radius: 7px;
+    background-color: #f6f7f9; box-shadow: none;
+  }
+  .work-inputs select { padding-right: 28px; }
+  .work-inputs .work-qty { text-align: center; }
+  .work-inputs input:focus, .work-inputs select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(74,144,217,0.22); }
+  .work-inputs .invalid { border-color: var(--err); background-color: #fdf1ef; }
 
-        .btn-submit {
-            background: #667eea;
-            color: white;
-        }
+  .plan-info { font-size: 11px; color: var(--on-dark-soft); margin: -2px 0 8px; min-height: 0; }
 
-        .btn-submit:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
+  button.submit {
+    width: 100%; background: #ffffff; color: var(--paper-deep); border: none; border-radius: var(--radius);
+    font-size: 15px; font-family: inherit; font-weight: 700; padding: 13px 16px; margin-top: 6px;
+    cursor: pointer; transition: background 0.15s ease, transform 0.05s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  button.submit:active { transform: scale(0.985); }
+  button.submit:hover { background: #eaf2fb; }
+  button.submit:disabled { opacity: 0.55; cursor: default; }
 
-        .btn-submit:active {
-            transform: translateY(0);
-        }
+  .status { margin-top: 14px; padding: 11px 13px; border-radius: var(--radius); font-size: 13px; display: none; }
+  .status.show { display: block; }
+  .status.err { background: #fbe9e7; color: var(--err); border: 1px solid #f1c3bd; }
 
-        .btn-download {
-            background: #f0f0f0;
-            color: #333;
-            border: 2px solid #e0e0e0;
-        }
+  .outbox-bar {
+    display: none; margin-bottom: 14px; padding: 9px 12px; border-radius: var(--radius);
+    background: rgba(255,196,0,0.12); border: 1px solid rgba(255,196,0,0.35);
+    color: #ffe08a; font-size: 12px;
+  }
+  .outbox-bar.show { display: block; }
 
-        .btn-download:hover {
-            background: #e8e8e8;
-            border-color: #d0d0d0;
-        }
-
-        .message {
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 20px;
-            display: none;
-            font-size: 13px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #666;
-        }
-    </style>
+  .success-screen { display: none; max-width: 480px; margin: 0 auto; padding: 60px 24px; text-align: center; color: var(--on-dark); }
+  .success-screen.show { display: block; }
+  .success-screen .check {
+    width: 52px; height: 52px; border-radius: 50%; background: var(--ok); color: #fff;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 26px;
+  }
+  .success-screen .check.queued { background: #b7860b; }
+  .success-screen h2 { font-size: 17px; margin-bottom: 8px; }
+  .success-screen p { color: var(--on-dark-soft); font-size: 13px; margin-bottom: 26px; line-height: 1.5; }
+  .success-screen button {
+    background: transparent; border: 1.5px solid var(--line-soft); color: var(--on-dark);
+    border-radius: var(--radius); padding: 11px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>📋 Montaj Raporu</h1>
-        <p class="subtitle">Yeni rapor ekle ve Excel'e kaydet</p>
 
-        <div class="info-box">
-            <strong>Bilgi:</strong> Formu doldur, "Kaydet" tuşuna bas. Rapor otomatik kaydedilir.
-        </div>
-
-        <form id="montajForm">
-
-            <div class="form-group">
-                <label for="saha">🏗️ Şantiye (Saha)</label>
-                <select id="saha" required>
-                    <option value="">-- Seç --</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="is">💼 İş / Açıklama</label>
-                <input type="text" id="is" placeholder="Montaj, kapı kurulumu, vs." required>
-            </div>
-
-            <div class="form-group">
-                <label for="kisiSayisi">👥 Kişi Sayısı</label>
-                <input type="number" id="kisiSayisi" min="1" value="1" required>
-            </div>
-
-            <div class="form-group">
-                <label for="tarih">📅 Tarih</label>
-                <input type="date" id="tarih" required>
-            </div>
-
-            <div class="button-group">
-                <button type="submit" class="btn-submit">✓ Kaydet ve Excel'e Ekle</button>
-                <button type="button" class="btn-download" id="downloadBtn">⬇️ Şablon İndir</button>
-            </div>
-
-            <div id="message" class="message"></div>
-        </form>
+<div id="form-screen">
+  <div class="topbar">
+    <img class="logo" alt="ICON" src="data:image/png;base64,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">
+    <div class="title" data-i18n="title">Günlük Rapor</div>
+    <div class="lang-toggle">
+      <button type="button" data-lang="tr" class="active">TR</button>
+      <button type="button" data-lang="ru">RU</button>
     </div>
+  </div>
 
-    <script>
-        // Make.com webhook URL for fetching sites
-        // KURULUM: Aşağıdaki URL'yi kendi Make webhook URL'inle değiştir
-        const SAHALAR_WEBHOOK_URL = 'https://hook.eu1.make.com/kk2l6u4ndu8wlfema0z701yc7alprbxc';
-        const REPORT_WEBHOOK_URL = 'https://hook.eu1.make.com/YOUR_REPORT_WEBHOOK_URL'; // For future integration
+  <main>
+    <div class="outbox-bar" id="outbox-bar"></div>
 
-        let sahaList = [];
+    <form id="report-form" novalidate>
+      <div class="field">
+        <label for="tarih" data-i18n="date">Tarih</label>
+        <input type="date" id="tarih" name="tarih" required>
+      </div>
 
-        // Bugünün tarihini otomatik set et
-        document.getElementById('tarih').valueAsDate = new Date();
+      <div class="field">
+        <label for="saha" data-i18n="site">Şantiye</label>
+        <select id="saha" name="saha" required></select>
+        <div class="hint" id="saha-hint"></div>
+      </div>
 
-        // Sayfa yüklendiğinde şantiye listesini al
-        window.addEventListener('DOMContentLoaded', function() {
-            fetchSahaList();
+      <div class="field">
+        <div class="label" data-i18n="work">Yapılan İşler</div>
+        <div class="plan-info" id="plan-info"></div>
+
+        <div class="section-label" data-i18n="door_items">Montaj</div>
+        <div class="work-list" id="work-list-montaj"></div>
+
+        <div class="section-label" data-i18n="general_items">Diğer İşler</div>
+        <div class="work-list" id="work-list-genel"></div>
+      </div>
+
+      <div class="field">
+        <label for="aciklama" data-i18n="general_note">Genel Açıklama</label>
+        <textarea id="aciklama" name="aciklama" data-i18n-placeholder="general_note_placeholder" placeholder="Kat, blok veya ek bilgi"></textarea>
+      </div>
+
+      <div class="row2">
+      <div class="field">
+        <label for="kisi" data-i18n="crew">Çalışan Sayısı</label>
+        <select id="kisi" name="kisi" required></select>
+      </div>
+      <div class="field">
+        <label for="raporu-giren" data-i18n="reported_by">Raporu Hazırlayan</label>
+        <select id="raporu-giren" name="raporuGiren" required></select>
+      </div>
+      </div>
+
+      <button type="submit" class="submit" id="submit-btn" data-i18n="submit">Raporu Gönder</button>
+
+      <div class="status" id="status"></div>
+    </form>
+  </main>
+</div>
+
+<div id="success-screen" class="success-screen">
+  <div class="check" id="success-check">✓</div>
+  <h2 id="success-title"></h2>
+  <p id="success-detail"></p>
+  <button id="new-report-btn" data-i18n="new_report">Yeni Rapor</button>
+</div>
+
+<script>
+  // ── Make.com webhook adresleri ──
+  const WEBHOOK_URL = "https://hook.eu1.make.com/2r0uydepewdw8rk90v2nwjvat2bx0ll8";
+  const SAHALAR_WEBHOOK_URL = "https://hook.eu1.make.com/kk2l6u4ndu8wlfema0z701yc7alprbxc";
+
+  // ── İş kalemleri (Excel'e her zaman Türkçe isim yazılır) ──
+  const KALEMLER = [
+    { id: 'metal_kapi',     grup: 'montaj' },
+    { id: 'ahsap_kapi',     grup: 'montaj' },
+    { id: 'cam_kapi',       grup: 'montaj' },
+    { id: 'vitraj',         grup: 'montaj' },
+    { id: 'daire_kapisi',   grup: 'montaj' },
+    { id: 'daire_portal',   grup: 'montaj' },
+    { id: 'aksesuar',       grup: 'montaj' },
+    { id: 'tasima_ayirma',  grup: 'genel' },
+    { id: 'restorasyon',    grup: 'genel' },
+    { id: 'fabrika_hata',   grup: 'genel' },
+    { id: 'teslimat',       grup: 'genel' },
+    { id: 'diger',          grup: 'genel', manuel: true }
+  ];
+  const KISI_SECENEKLERI = [1,2,3,4,5,6,7,8,9,10,12,15,20];
+
+  const I18N = {
+    tr: {
+      title: 'Günlük Rapor', date: 'Tarih', site: 'Şantiye',
+      site_placeholder: 'Listeden seçin veya yazın',
+      work: 'Yapılan İşler', door_items: 'Montaj', general_items: 'Diğer İşler',
+      qty: 'Adet', crew: 'Çalışan Sayısı', note: 'Açıklama (isteğe bağlı)',
+      total: 'Toplam', remaining: 'Kalan',
+      plan_found: 'Bu şantiyenin planı yüklendi. Toplam ve kalan adetler gösteriliyor.',
+      plan_none: 'Bu şantiye için plan bulunamadı. Toplam/kalan gösterilmez.',
+      general_note: 'Genel Açıklama', general_note_placeholder: 'Kat, blok veya ek bilgi',
+      reported_by: 'Raporu Hazırlayan', select: 'Seçin…',
+      submit: 'Raporu Gönder', submitting: 'Gönderiliyor…',
+      err_site: 'Şantiye seçin.',
+      err_no_items: 'En az bir iş seçin.',
+      err_item_fields: 'Seçilen her iş için adet girin.',
+      err_crew: 'Çalışan sayısını seçin.',
+      err_reporter: 'Raporu hazırlayanı seçin.',
+      err_webhook: 'Webhook adresi henüz ayarlanmadı.',
+      err_list: 'Güncel şantiye listesi alınamadı; kayıtlı liste gösteriliyor.',
+      success_title: 'Rapor gönderildi', success_saved: 'Rapor kaydedildi.',
+      queued_title: 'Rapor telefonda bekliyor',
+      queued_detail: 'İnternet bağlantısı yok. Rapor kaybolmadı; bağlantı gelince otomatik gönderilecek.',
+      outbox: 'Gönderilmeyi bekleyen rapor: ',
+      new_report: 'Yeni Rapor', unit: 'adet',
+      cat_metal_kapi: 'Metal Kapı Montajı', cat_ahsap_kapi: 'Ahşap Kapı Montajı',
+      cat_cam_kapi: 'Cam Kapı Montajı', cat_vitraj: 'Vitraj Montajı',
+      cat_daire_kapisi: 'Daire Kapısı Montajı', cat_daire_portal: 'Daire Kapısı Portal Montajı',
+      cat_tasima_ayirma: 'Kapı Taşıma / Ayırma', cat_teslimat: 'Teslimat',
+      cat_aksesuar: 'Aksesuar Montajı', cat_restorasyon: 'Restorasyon',
+      cat_fabrika_hata: 'Fabrika Hatası Giderme', cat_diger: 'Diğer',
+      manual_note: 'Yapılan iş', manual_placeholder: 'Ne yapıldığını yazın',
+      err_manual: '"Diğer" için yapılan işi yazın.'
+    },
+    ru: {
+      title: 'Ежедневный отчёт', date: 'Дата', site: 'Объект',
+      site_placeholder: 'Выберите из списка или введите',
+      work: 'Выполненные работы', door_items: 'Монтаж', general_items: 'Прочие работы',
+      qty: 'Кол-во', crew: 'Кол-во человек', note: 'Примечание (необязательно)',
+      total: 'Всего', remaining: 'Осталось',
+      plan_found: 'План объекта загружен. Показаны общее и оставшееся количество.',
+      plan_none: 'План для этого объекта не найден. Итоги не показываются.',
+      general_note: 'Общее примечание', general_note_placeholder: 'Этаж, корпус или доп. информация',
+      reported_by: 'Отчёт составил', select: 'Выберите…',
+      submit: 'Отправить отчёт', submitting: 'Отправка…',
+      err_site: 'Выберите объект.',
+      err_no_items: 'Выберите хотя бы одну работу.',
+      err_item_fields: 'Для каждой выбранной работы укажите количество.',
+      err_crew: 'Укажите количество человек.',
+      err_reporter: 'Выберите, кто составил отчёт.',
+      err_webhook: 'Адрес webhook ещё не настроен.',
+      err_list: 'Не удалось загрузить список объектов; показан сохранённый.',
+      success_title: 'Отчёт отправлен', success_saved: 'Отчёт сохранён.',
+      queued_title: 'Отчёт ждёт отправки',
+      queued_detail: 'Нет интернета. Отчёт не потерян и будет отправлен автоматически при появлении связи.',
+      outbox: 'Отчётов в очереди: ',
+      new_report: 'Новый отчёт', unit: 'шт.',
+      cat_metal_kapi: 'Монтаж металлических дверей', cat_ahsap_kapi: 'Монтаж деревянных дверей',
+      cat_cam_kapi: 'Монтаж стеклянных дверей', cat_vitraj: 'Монтаж витражей',
+      cat_daire_kapisi: 'Монтаж квартирных дверей', cat_daire_portal: 'Монтаж порталов квартирных дверей',
+      cat_tasima_ayirma: 'Перенос / сортировка дверей', cat_teslimat: 'Доставка',
+      cat_aksesuar: 'Монтаж фурнитуры', cat_restorasyon: 'Реставрация',
+      cat_fabrika_hata: 'Устранение заводского брака', cat_diger: 'Прочее',
+      manual_note: 'Выполненная работа', manual_placeholder: 'Опишите, что сделано',
+      err_manual: 'Для «Прочее» опишите выполненную работу.'
+    }
+  };
+
+  // ── Güvenli localStorage ──
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  let lang = lsGet('montaj_lang') || 'tr';
+  function t(key) { return (I18N[lang] && I18N[lang][key]) || I18N.tr[key] || key; }
+  function labelTr(id) { return I18N.tr['cat_' + id] || id; }
+  function label(id) { return I18N[lang]['cat_' + id] || labelTr(id); }
+
+  const $ = function (id) { return document.getElementById(id); };
+  const form = $('report-form'), statusEl = $('status'), submitBtn = $('submit-btn');
+  const sahaInput = $('saha'), sahaHint = $('saha-hint'), planInfo = $('plan-info');
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function norm(s) {
+    return String(s || '').toLocaleLowerCase('tr')
+      .replace(/ı/g, 'i').normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-zа-яё0-9]+/g, '');
+  }
+  function localToday() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // Excel'deki iş adını (TR/RU/id) kalem id'sine çevir
+  const LABEL_TO_ID = {};
+  KALEMLER.forEach(function (k) {
+    LABEL_TO_ID[norm(k.id)] = k.id;
+    LABEL_TO_ID[norm(I18N.tr['cat_' + k.id])] = k.id;
+    LABEL_TO_ID[norm(I18N.ru['cat_' + k.id])] = k.id;
+  });
+  function toId(v) { return LABEL_TO_ID[norm(v)] || null; }
+
+  // ── Satırları oluştur ──
+  function rowHtml(k) {
+    return '<div class="work-row" data-id="' + k.id + '"' + (k.manuel ? ' data-manuel="1"' : '') + '>' +
+      '<label class="work-head"><input type="checkbox" class="work-check"><span class="work-name"></span></label>' +
+      '<div class="work-body">' +
+        '<div class="work-stats">' +
+          '<div class="stat"><span data-i18n="total">Toplam</span><b class="st-total">–</b></div>' +
+          '<div class="stat kalan"><span data-i18n="remaining">Kalan</span><b class="st-left">–</b></div>' +
+        '</div>' +
+        '<div class="work-inputs">' +
+          '<div><span class="mini-label" data-i18n="qty">Adet</span><input type="number" class="work-qty" min="1" inputmode="numeric"></div>' +
+          (k.manuel
+            ? '<div><span class="mini-label" data-i18n="manual_note">Yapılan iş</span><input type="text" class="work-note" data-i18n-placeholder="manual_placeholder"></div>'
+            : '<div><span class="mini-label" data-i18n="note">Açıklama</span><input type="text" class="work-note"></div>') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+  $('work-list-montaj').innerHTML = KALEMLER.filter(function (k) { return k.grup === 'montaj'; }).map(rowHtml).join('');
+  $('work-list-genel').innerHTML = KALEMLER.filter(function (k) { return k.grup === 'genel'; }).map(rowHtml).join('');
+
+  $('kisi').innerHTML = '<option value="" disabled selected data-i18n="select">Seçin…</option>' +
+    KISI_SECENEKLERI.map(function (n) { return '<option value="' + n + '">' + n + '</option>'; }).join('');
+
+  function rows() { return Array.from(document.querySelectorAll('.work-row')); }
+
+  rows().forEach(function (row) {
+    const cb = row.querySelector('.work-check');
+    cb.addEventListener('change', function () {
+      row.classList.toggle('checked', cb.checked);
+      if (cb.checked) setTimeout(function () { row.querySelector('.work-qty').focus(); }, 30);
+      updateStats(row);
+    });
+    row.querySelector('.work-qty').addEventListener('input', function () { this.classList.remove('invalid'); updateStats(row); });
+    row.querySelector('.work-note').addEventListener('input', function () { this.classList.remove('invalid'); });
+  });
+
+  // ── Dil ──
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) { el.placeholder = t(el.dataset.i18nPlaceholder); });
+    document.querySelectorAll('.lang-toggle button').forEach(function (b) { b.classList.toggle('active', b.dataset.lang === lang); });
+    rows().forEach(function (row) { row.querySelector('.work-name').textContent = label(row.dataset.id); });
+    if (typeof renderPersonel === 'function' && $('raporu-giren').options.length) renderPersonel();
+    if (sahaInput.options.length) sahaInput.options[0].textContent = t('select');
+    updatePlanInfo();
+    renderOutbox();
+  }
+  document.querySelectorAll('.lang-toggle button').forEach(function (b) {
+    b.addEventListener('click', function () { lang = b.dataset.lang; lsSet('montaj_lang', lang); applyLang(); });
+  });
+
+  // ── Raporu hazırlayanlar (Excel: Proje Planlari D=TR, E=RU). Excel'e her zaman TR yazılır. ──
+  let personel = [
+    { tr: 'Arslan Selim', ru: 'Арслан Селим' },
+    { tr: 'Dizmen Hamdi Erser', ru: 'Дизмен Хамди Эрсер' },
+    { tr: 'Zerkin Sergey Aleksandroviç', ru: 'Зеркин Сергей Александрович' },
+    { tr: 'Karyalaynen Oleg Nikolayeviç', ru: 'Карьялайнен Олег Николаевич' },
+    { tr: 'Koşeleva Mariya Olegovna', ru: 'Кошелева Мария Олеговна' },
+    { tr: 'Akın Murat', ru: 'Акын Мурат' },
+    { tr: 'Asliddin Uulu Avaldin', ru: 'Аслиддин Уулу Авалдин' },
+    { tr: 'Belyavskiy Yuriy Anatolyeviç', ru: 'Белявский Юрий Анатольевич' },
+    { tr: 'Gökhan Mahmut', ru: 'Гекхан Махмут' },
+    { tr: 'Davlatov Şerzod Sabirbayeviç', ru: 'Давлатов Шерзод Сабирбаевич' },
+    { tr: 'Leontyev Pavel Nikolayeviç', ru: 'Леонтьев Павел Николаевич' },
+    { tr: 'Muratbekov Altınbek', ru: 'Муратбеков Алтынбек' },
+    { tr: 'Sağlam Merih', ru: 'Саглам Мерих' },
+    { tr: 'Fathudin Uulu Zaynidin', ru: 'Фатхудин Уулу Зайнидин' },
+    { tr: 'Hannayev Nusratullo Huşbakoviç', ru: 'Ханнаев Нусратулло Хушбакович' }
+  ];
+  function renderPersonel() {
+    const sel = $('raporu-giren'), cur = sel.value || lsGet('montaj_reporter') || '';
+    sel.innerHTML = '<option value="" disabled selected>' + escapeHtml(t('select')) + '</option>' +
+      personel.map(function (p) {
+        return '<option value="' + escapeHtml(p.tr) + '">' + escapeHtml(lang === 'ru' ? p.ru : p.tr) + '</option>';
+      }).join('');
+    if (cur && personel.some(function (p) { return p.tr === cur; })) sel.value = cur;
+  }
+
+  // ── Şantiye planları: { sahaNorm: { name, items: { id: { toplam, yapilan } } } } ──
+  const SAHA_CACHE_KEY = 'montaj_sahalar_cache_v6';
+  let sahalar = {};
+  let aktifPlan = null;
+
+  function ensureSaha(name) {
+    const key = norm(name);
+    if (!key) return null;
+    if (!sahalar[key]) sahalar[key] = { name: String(name).trim(), items: {} };
+    return sahalar[key];
+  }
+  function ensureItem(s, id) {
+    if (!s.items[id]) s.items[id] = { toplam: null, yapilan: 0 };
+    return s.items[id];
+  }
+  function num(v) { const n = Number(String(v == null ? '' : v).replace(',', '.').replace(/\s/g, '')); return isFinite(n) ? n : 0; }
+
+  // Make'in döndürdüğü düz metin:
+  //   #PLAN#  (her satır: saha|iş|toplam)   #RAPOR#  (her satır: saha|iş|adet)
+  function parseText(txt) {
+    const out = { plan: [], rapor: [], sahalar: [], personel: [] };
+    const iP = txt.indexOf('#PLAN#'), iR = txt.indexOf('#RAPOR#');
+    const planTxt = iP >= 0 ? txt.slice(iP + 6, iR > iP ? iR : undefined) : '';
+    const raporTxt = iR >= 0 ? txt.slice(iR + 7) : '';
+    function rows(t) {
+      return t.split(/\r?\n/).map(function (l) { return l.split('|').map(function (x) { return x.trim(); }); })
+        .filter(function (c) { return c.length >= 3; });
+    }
+    rows(planTxt).forEach(function (c) {
+      if (c[0]) out.sahalar.push(c[0]);
+      if (c[0] && c[1]) out.plan.push({ saha: c[0], is: c[1], toplam: c[2] });
+      if (c[3] || c[4]) out.personel.push({ tr: c[3] || c[4], ru: c[4] || c[3] });
+    });
+    rows(raporTxt).forEach(function (c) { if (c[0] && c[1]) out.rapor.push({ saha: c[0], is: c[1], adet: c[2] }); });
+    return out;
+  }
+  function parseAny(raw) {
+    if (typeof raw !== 'string') return raw;
+    try { return JSON.parse(raw); } catch (e) { return parseText(raw); }
+  }
+
+  // Kabul edilen formatlar:
+  //  A) { plan: [{saha, is, toplam}], rapor: [{saha, is, adet}] }
+  //  B) [{ saha, isKalemleri: [{ id|label, toplam, yapilan }] }]
+  function parseSahalar(data) {
+    sahalar = {};
+    if (Array.isArray(data)) {
+      data.forEach(function (p) {
+        const s = ensureSaha(p.saha); if (!s) return;
+        (p.isKalemleri || []).forEach(function (it) {
+          const id = toId(it.id) || toId(it.label); if (!id) return;
+          const item = ensureItem(s, id);
+          if (it.toplam !== undefined && it.toplam !== '') item.toplam = num(it.toplam);
+          if (it.yapilan !== undefined) item.yapilan = num(it.yapilan);
         });
+      });
+    } else if (data && typeof data === 'object') {
+      (data.sahalar || []).forEach(function (name) { ensureSaha(name); });
+      if (data.personel && data.personel.length) { personel = data.personel; renderPersonel(); }
+      (data.plan || []).forEach(function (r) {
+        const s = ensureSaha(r.saha); const id = toId(r.is);
+        if (!s || !id) return;
+        const item = ensureItem(s, id);
+        item.toplam = (item.toplam || 0) + num(r.toplam);
+      });
+      (data.rapor || []).forEach(function (r) {
+        // Sadece listede olan şantiyeler için yapılanı say (rapordaki eski/test adlar listeye eklenmez)
+        const s = sahalar[norm(r.saha)]; const id = toId(r.is);
+        if (!s || !id) return;
+        ensureItem(s, id).yapilan += num(r.adet);
+      });
+    }
+  }
 
-        // Make webhook'tan şantiye listesini al
-        async function fetchSahaList() {
-            try {
-                showMessage('📡 Şantiye listesi yükleniyor...', 'info');
+  function renderSahaOptions() {
+    const cur = sahaInput.value;
+    const names = Object.keys(sahalar).map(function (k) { return sahalar[k].name; })
+      .sort(function (a, b) { return a.localeCompare(b, 'tr', { numeric: true }); });
+    sahaInput.innerHTML = '<option value="" disabled selected>' + escapeHtml(t('select')) + '</option>' +
+      names.map(function (n) { return '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>'; }).join('');
+    if (cur && names.indexOf(cur) >= 0) sahaInput.value = cur;
+  }
 
-                const response = await fetch(SAHALAR_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+  function updatePlanInfo() {
+    if (!sahaInput.value.trim() || !Object.keys(sahalar).length) { planInfo.textContent = ''; return; }
+    const hasPlan = aktifPlan && Object.keys(aktifPlan.items).some(function (id) { return aktifPlan.items[id].toplam != null; });
+    planInfo.textContent = hasPlan ? t('plan_found') : t('plan_none');
+  }
 
-                if (!response.ok) {
-                    throw new Error(`Webhook hatası: ${response.status}`);
-                }
+  function updateStats(row) {
+    const id = row.dataset.id;
+    const item = aktifPlan && aktifPlan.items[id];
+    const hasPlan = !!(item && item.toplam != null);
+    row.classList.toggle('has-plan', hasPlan);
+    if (!hasPlan) return;
+    const girilen = row.querySelector('.work-check').checked ? num(row.querySelector('.work-qty').value) : 0;
+    const kalan = item.toplam - item.yapilan - girilen;
+    row.querySelector('.st-total').textContent = item.toplam;
+    row.querySelector('.st-left').textContent = kalan;
+    row.querySelector('.stat.kalan').classList.toggle('over', kalan < 0);
+  }
 
-                const data = await response.json();
+  function applySahaSelection() {
+    aktifPlan = sahalar[norm(sahaInput.value)] || null;
+    rows().forEach(updateStats);
+    updatePlanInfo();
+  }
+  sahaInput.addEventListener('change', applySahaSelection);
+  sahaInput.addEventListener('input', applySahaSelection);
 
-                // Webhook'tan gelen veriyi işle
-                if (data && data.sites) {
-                    // Eğer sites bir array ise
-                    if (Array.isArray(data.sites)) {
-                        sahaList = data.sites
-                            .map(site => {
-                                // Eğer site bir nesne ise, isim alanını kullan
-                                if (typeof site === 'object' && site !== null) {
-                                    return site.Saha || site.saha || site.name || site.Name || JSON.stringify(site);
-                                }
-                                return String(site);
-                            })
-                            .filter(s => s && s.toString().trim() !== '')
-                            .map(s => s.toString().trim())
-                            .filter((value, index, self) => self.indexOf(value) === index); // Tekrar edenleri kaldır
-                    } else if (typeof data.sites === 'object') {
-                        // Eğer sites bir nesne ise, değerlerini al
-                        sahaList = Object.values(data.sites)
-                            .map(site => {
-                                if (typeof site === 'object' && site !== null) {
-                                    return site.Saha || site.saha || site.name || site.Name || JSON.stringify(site);
-                                }
-                                return String(site);
-                            })
-                            .filter(s => s && s.toString().trim() !== '')
-                            .map(s => s.toString().trim())
-                            .filter((value, index, self) => self.indexOf(value) === index);
-                    }
-                }
+  async function loadSahalar() {
+    renderPersonel();
+    try {
+      const cached = lsGet(SAHA_CACHE_KEY);
+      if (cached) { parseSahalar(parseAny(cached)); renderSahaOptions(); applySahaSelection(); }
+    } catch (e) {}
 
-                if (sahaList.length > 0) {
-                    updateSahaDropdown();
-                    showMessage('✓ Şantiye listesi başarıyla yüklendi.', 'success');
-                } else {
-                    showMessage('⚠️ Şantiye listesi boş. Lütfen Excel dosyasını kontrol et.', 'error');
-                }
-            } catch (error) {
-                showMessage('❌ Şantiye listesi yüklenemedi: ' + error.message, 'error');
-                console.error('Webhook hatası:', error);
-            }
-        }
+    if (SAHALAR_WEBHOOK_URL.indexOf('PASTE_') === 0) return;
 
-        function updateSahaDropdown() {
-            const select = document.getElementById('saha');
-            const currentValue = select.value;
+    try {
+      const res = await fetch(SAHALAR_WEBHOOK_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const raw = await res.text();
+      const data = parseAny(raw);
+      if (!data || (!Array.isArray(data) && !data.plan && !data.rapor)) throw new Error('gecersiz yanit');
+      parseSahalar(data);
+      lsSet(SAHA_CACHE_KEY, raw);
+      renderSahaOptions();
+      applySahaSelection();
+      sahaHint.textContent = '';
+    } catch (err) {
+      sahaHint.textContent = t('err_list');
+    }
+  }
 
-            // Seçenekleri temizle (ilk "Seç" hariç)
-            while (select.options.length > 1) {
-                select.remove(1);
-            }
+  // ── Gönderilemeyen raporlar kuyruğu ──
+  const OUTBOX_KEY = 'montaj_outbox_v1';
+  function getOutbox() { try { return JSON.parse(lsGet(OUTBOX_KEY) || '[]'); } catch (e) { return []; } }
+  function setOutbox(list) { lsSet(OUTBOX_KEY, JSON.stringify(list)); renderOutbox(); }
+  function renderOutbox() {
+    const n = getOutbox().length, bar = $('outbox-bar');
+    bar.textContent = n ? t('outbox') + n : '';
+    bar.classList.toggle('show', n > 0);
+  }
 
-            // Yeni seçenekleri ekle
-            sahaList.forEach(saha => {
-                const option = document.createElement('option');
-                option.value = saha;
-                option.textContent = saha;
-                select.appendChild(option);
-            });
+  async function postReport(data) {
+    const res = await fetch(WEBHOOK_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+    });
+    if (!res.ok) { const e = new Error('HTTP ' + res.status); e.http = true; throw e; }
+  }
 
-            // Eski seçimi geri yükle
-            select.value = currentValue;
-        }
+  let flushing = false;
+  async function flushOutbox() {
+    if (flushing || !navigator.onLine) return;
+    flushing = true;
+    try {
+      let list = getOutbox();
+      while (list.length) {
+        try { await postReport(list[0]); } catch (e) { break; }
+        list = getOutbox().filter(function (r) { return r.rapor_id !== list[0].rapor_id; });
+        setOutbox(list);
+      }
+    } finally { flushing = false; }
+  }
+  window.addEventListener('online', flushOutbox);
 
-        // Form gönderimi
-        document.getElementById('montajForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+  // ── Gönder ──
+  function showStatus(text) { statusEl.className = 'status show err'; statusEl.textContent = text; }
 
-            const saha = document.getElementById('saha').value;
-            const is = document.getElementById('is').value;
-            const kisiSayisi = document.getElementById('kisiSayisi').value;
-            const tarih = document.getElementById('tarih').value;
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    statusEl.className = 'status';
 
-            if (!saha || !is || !kisiSayisi || !tarih) {
-                showMessage('❌ Lütfen tüm alanları doldurun', 'error');
-                return;
-            }
+    if (WEBHOOK_URL.indexOf('PASTE_') === 0) { showStatus(t('err_webhook')); return; }
+    if (!sahaInput.value.trim()) { showStatus(t('err_site')); sahaInput.focus(); return; }
 
-            // Form verilerini hazırla
-            const reportData = {
-                'Tarih': tarih,
-                'Saha': saha,
-                'İş': is,
-                'Kişi Sayısı': parseInt(kisiSayisi),
-                'Kayıt Zamanı': new Date().toLocaleString('tr-TR')
-            };
+    const secili = rows().filter(function (r) { return r.querySelector('.work-check').checked; });
+    if (!secili.length) { showStatus(t('err_no_items')); return; }
 
-            // Webhooks'a gönder (future integration) veya sadece başarılı mesajı göster
-            submitReport(reportData);
-        });
+    let eksik = false;
+    const items = secili.map(function (row) {
+      const qtyEl = row.querySelector('.work-qty');
+      const adet = num(qtyEl.value);
+      if (!(adet > 0)) { qtyEl.classList.add('invalid'); eksik = true; }
+      return { id: row.dataset.id, label: labelTr(row.dataset.id), adet: adet, not: row.querySelector('.work-note').value.trim() };
+    });
+    if (eksik) { showStatus(t('err_item_fields')); return; }
+    const manuelEksik = secili.find(function (row) { return row.dataset.manuel && !row.querySelector('.work-note').value.trim(); });
+    if (manuelEksik) { manuelEksik.querySelector('.work-note').classList.add('invalid'); showStatus(t('err_manual')); return; }
 
-        async function submitReport(reportData) {
-            try {
-                showMessage('⏳ Rapor kaydediliyor...', 'info');
+    const kisiSayisi = num($('kisi').value);
+    if (!(kisiSayisi > 0)) { showStatus(t('err_crew')); return; }
+    // Çalışan sayısı Excel'de raporun yalnızca ilk satırına yazılır,
+    // böylece pivotta toplandığında aynı ekip iki kez sayılmaz.
+    items.forEach(function (it, i) { it.kisi = i === 0 ? kisiSayisi : ''; });
 
-                // Şimdilik başarılı mesajı göster
-                // Future: Webhook'a göndermek için bu fonksiyon güncellenebilir
+    const reporter = $('raporu-giren').value;
+    if (!reporter) { showStatus(t('err_reporter')); return; }
+    lsSet('montaj_reporter', reporter);
 
-                showMessage('✓ Rapor başarıyla kaydedildi!', 'success');
+    const data = {
+      rapor_id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      tarih: $('tarih').value || localToday(),
+      saha: sahaInput.value.trim(),
+      is: items.map(function (it) { return it.label + ': ' + it.adet + ' adet' + (it.not ? ' (' + it.not + ')' : ''); }).join('; '),
+      is_kalemleri: items,
+      kisi_sayisi: kisiSayisi,
+      raporu_giren: reporter,
+      aciklama: $('aciklama').value.trim(),
+      dil: lang
+    };
 
-                // Formu temizle
-                setTimeout(() => {
-                    document.getElementById('is').value = '';
-                    document.getElementById('kisiSayisi').value = '1';
-                    document.getElementById('tarih').valueAsDate = new Date();
-                    document.getElementById('saha').value = '';
-                }, 2000);
-            } catch (error) {
-                showMessage('❌ Hata: ' + error.message, 'error');
-            }
-        }
+    submitBtn.disabled = true;
+    submitBtn.textContent = t('submitting');
 
-        // Şablon indir
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            // Sahalar tabı
-            const sahaSheet = XLSX.utils.json_to_sheet([
-                { 'Saha': 'İstanbul - Ofis' },
-                { 'Saha': 'Ankara - Depo' },
-                { 'Saha': 'İzmir - Mağaza' }
-            ]);
+    const ozet = data.saha + ' — ' + items.map(function (it) { return label(it.id) + ': ' + it.adet + ' ' + t('unit'); }).join(', ');
+    try {
+      await postReport(data);
+      // Yapılan adetleri yerelde de güncelle (kalan hemen doğru görünsün)
+      if (aktifPlan) items.forEach(function (it) { if (aktifPlan.items[it.id]) aktifPlan.items[it.id].yapilan += it.adet; });
+      showSuccess(false, t('success_saved') + ' ' + ozet);
+    } catch (err) {
+      if (err.http) { showStatus('Hata: ' + err.message); }
+      else {
+        setOutbox(getOutbox().concat([data]));
+        showSuccess(true, t('queued_detail') + ' ' + ozet);
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = t('submit');
+    }
+  });
 
-            // Montaj Raporu tabı (boş başlıklarla)
-            const montajSheet = XLSX.utils.json_to_sheet([
-                {
-                    'Tarih': '2026-09-22',
-                    'Saha': 'İstanbul - Ofis',
-                    'İş': 'Kapı kurulumu',
-                    'Kişi Sayısı': 3,
-                    'Kayıt Zamanı': new Date().toLocaleString('tr-TR')
-                }
-            ]);
+  function showSuccess(queued, detail) {
+    $('success-check').classList.toggle('queued', queued);
+    $('success-check').textContent = queued ? '⏳' : '✓';
+    $('success-title').textContent = queued ? t('queued_title') : t('success_title');
+    $('success-detail').textContent = detail;
+    $('form-screen').style.display = 'none';
+    $('success-screen').classList.add('show');
+  }
 
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, sahaSheet, 'Sahalar');
-            XLSX.utils.book_append_sheet(workbook, montajSheet, 'Montaj Raporu');
+  $('new-report-btn').addEventListener('click', function () {
+    const reporter = $('raporu-giren').value, saha = sahaInput.value;
+    form.reset();
+    $('tarih').value = localToday();
+    // Aynı kişi aynı şantiyeden art arda rapor giriyorsa bunları koru
+    $('raporu-giren').value = reporter;
+    sahaInput.value = saha;
+    rows().forEach(function (r) { r.classList.remove('checked'); r.querySelectorAll('.invalid').forEach(function (x) { x.classList.remove('invalid'); }); });
+    applySahaSelection();
+    $('success-screen').classList.remove('show');
+    $('form-screen').style.display = 'block';
+    statusEl.className = 'status';
+  });
 
-            XLSX.writeFile(workbook, 'Montaj_Raporu_Sablon.xlsx');
-            showMessage('✓ Şablon indirildi!', 'success');
-        });
+  $('tarih').value = localToday();
+  applyLang();
+  renderOutbox();
+  loadSahalar();
+  flushOutbox();
+</script>
 
-        function showMessage(text, type) {
-            const messageEl = document.getElementById('message');
-            messageEl.textContent = text;
-            messageEl.className = `message ${type}`;
-
-            // CSS'ye info sınıfı ekle
-            if (type === 'info') {
-                messageEl.style.background = '#e7f3ff';
-                messageEl.style.color = '#004085';
-                messageEl.style.border = '1px solid #b8daff';
-            } else if (type === 'success') {
-                messageEl.style.background = '#d4edda';
-                messageEl.style.color = '#155724';
-                messageEl.style.border = '1px solid #c3e6cb';
-            } else if (type === 'error') {
-                messageEl.style.background = '#f8d7da';
-                messageEl.style.color = '#721c24';
-                messageEl.style.border = '1px solid #f5c6cb';
-            }
-
-            messageEl.style.display = 'block';
-
-            if (type === 'success') {
-                setTimeout(() => {
-                    messageEl.style.display = 'none';
-                }, 4000);
-            }
-        }
-    </script>
 </body>
 </html>
